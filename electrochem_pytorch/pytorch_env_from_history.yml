@@ -1,0 +1,25 @@
+name: pytorch
+channels:
+  - defaults
+dependencies:
+  - pytorch
+  - torchaudio
+  - torchvision
+  - matplotlib
+  - seaborn
+  - jupyter_conda
+  - nbconvert=5.6.1
+  - jupyter
+  - jupyter_contrib_nbextensions
+  - jupyterthemes
+  - wandb
+  - pip
+  - ipython
+  - jupyter_core
+  - easydict
+  - scikit-learn
+  - pytorch-lightning
+  - python=3.8.5
+  - torchmetrics
+  - icecream
+prefix: /Users/king/opt/anaconda3/envs/pytorch
