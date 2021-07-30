@@ -22,6 +22,8 @@ def get_longform_df(df):
         and having a unique name. There is a 'voltage' column with the same
         values as in main.xlsx and a RangeIndex.
     """
+    # Replace spaces with underscores in Concentration column
+    df['Concentration'] = df['Concentration'].str.replace(' ', '_')
     # Create new column (we will use this to extract unique names later on)
     df['metal_concentration'] = df['Analyte'] + '_' + df['Concentration']
     df = df.drop(columns=['Name', 'Analyte', 'Concentration'])
