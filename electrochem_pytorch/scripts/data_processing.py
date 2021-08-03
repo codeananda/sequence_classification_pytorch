@@ -4,7 +4,7 @@ from pathlib import Path
 DATA_DIR = Path('data')
 
 
-def get_longform_df(df):
+def transform_to_longform_df(df):
     """
     Transform a wide-form DataFrame (df) from main.xlsx into a long-form
     one with unique columns and a RangeIndex.
