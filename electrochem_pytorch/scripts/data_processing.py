@@ -23,7 +23,7 @@ def create_df_with_unique_row_names(df):
     pass
 
 
-def get_label_to_int_mapping():
+def get_class_label_to_int_mapping():
     """Create mapping from str labels to int labels (PyTorch expects labels
     to be ints).
 
