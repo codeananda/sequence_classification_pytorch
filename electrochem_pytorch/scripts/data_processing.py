@@ -1,7 +1,42 @@
 import numpy as np
 from pathlib import Path
+from sklearn.preprocessing import LabelEncoder
 
 DATA_DIR = Path('data')
+
+def create_df_with_unique_row_names(df):
+    """Transform the wide-from Dataframe (df) from main.xlsx into one with
+    unique row names and values 0-1001 as the column names. The
+
+    Parameters
+    ----------
+    df : pandas DataFrame
+        A DataFrame read in from main.xlsx. It must have columns 'Name',
+        'Analyte' and 'Concentration'.
+
+    Returns
+    -------
+    pandas DataFrame
+        Wide-form dataframe with each row having a unique name
+
+    """
+    pass
+
+
+def get_label_to_int_mapping():
+    """Create mapping from str labels to int labels (PyTorch expects labels
+    to be ints).
+
+    Returns
+    -------
+    Dict
+        Dict mapping str 2-letter labels to ints
+    """
+    labels_str = ['Cu', 'Cd', 'Pb', 'Sw']
+    label_enc = LabelEncoder()
+    labels_int = label_enc.fit_transform(labels_str)
+    label_to_int_mapping = dict(zip(labels_str, labels_int))
+    return label_to_int_mapping
 
 
 def transform_to_longform_df(df):
