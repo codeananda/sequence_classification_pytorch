@@ -186,14 +186,16 @@ class UnaugmentedAnalyteDataModule(pl.LightningDataModule):
             value,
             scaled_min,
             scaled_max,
-            original_min,
-            original_max):
+            global_min,
+            global_max
+            ):
 		# Scale value into [scaled_min, scaled_max] given the max and min values of the seq
 		# it belongs to.
 		# Taken from this SO answer: https://tinyurl.com/j5rppewr
-		numerator = (scaled_max - scaled_min) * (value - original_min)
-		denominator = original_max - original_min
-		return (numerator / denominator) + scaled_min
+		numerator = (scaled_max - scaled_min) * (value - global_min)
+		denominator = global_max - global_min
+        scaled_value = (numerator / denominator) + scaled_min
+		return scaled_value
 
 
 	def _reshape(self, df_X, df_y):
