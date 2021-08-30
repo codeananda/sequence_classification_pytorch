@@ -120,8 +120,8 @@ class UnaugmentedAnalyteDataModule(pl.LightningDataModule):
 			scaled_row = self._scale_to_range(row,
 											  scaled_min,
 											  scaled_max,
-											  seq_min=df_global_min,
-											  seq_max=df_global_max)
+											  global_min=df_global_min,
+											  global_max=df_global_max)
 			scaled_rows.append(scaled_row)
 		df_scaled = pd.DataFrame(scaled_rows, columns=df_X.columns)
 		return df_scaled
@@ -132,8 +132,8 @@ class UnaugmentedAnalyteDataModule(pl.LightningDataModule):
             seq,
             scaled_min,
             scaled_max,
-            seq_min=None,
-            seq_max=None):
+            global_min=None,
+            global_max=None):
         """Given a sequence of numbers - seq - scale all of its values to the
 		range [scaled_min, scaled_max].
 
@@ -148,16 +148,16 @@ class UnaugmentedAnalyteDataModule(pl.LightningDataModule):
             The minimum value of seq after it has been scaled.
         scaled_max : int or float
             The maximum value of seq after it has been scaled.
-        seq_min : int or float, optional
+        global_min : int or float, optional
             The minimum value of the sequence, by default None. If None,
             the minimum value is taken to be min(seq). You may want to set
-            seq_min manually if you are scaling multiple sequences to the
-            same range and they don't all contain seq_min.
-        seq_max : int or float, optional
+            global_min manually if you are scaling multiple sequences to the
+            same range and they don't all contain global_min.
+        global_max : int or float, optional
             The maximum value of the sequence, by default None. If None,
             the maximum value is taken to be max(seq). You may want to set
-            seq_max manually if you are scaling multiple sequences to the
-            same range and they don't all contain seq_max.
+            global_max manually if you are scaling multiple sequences to the
+            same range and they don't all contain global_max.
 
         Returns
         -------
@@ -169,13 +169,13 @@ class UnaugmentedAnalyteDataModule(pl.LightningDataModule):
 		# Can override this and input custom min and max values
 		# if, for example, want to scale to ranges not necesarily included
 		# in the data (as in our case with the train and val data)
-		if seq_max is None:
-			seq_max = np.max(seq)
-		if seq_min is None:
-			seq_min = np.min(seq)
-		assert seq_min < seq_max
+		if global_max is None:
+			global_max = np.max(seq)
+		if global_min is None:
+			global_min = np.min(seq)
+		assert global_min < global_max
 		scaled_seq = np.array([self._scale_one_value(value, scaled_min, scaled_max,
-										  			 seq_min, seq_max) \
+										  			 global_min, global_max) \
 							   for value in seq])
 
 		return scaled_seq
