@@ -189,9 +189,33 @@ class UnaugmentedAnalyteDataModule(pl.LightningDataModule):
             global_min,
             global_max
             ):
-		# Scale value into [scaled_min, scaled_max] given the max and min values of the seq
-		# it belongs to.
-		# Taken from this SO answer: https://tinyurl.com/j5rppewr
+        """Scale value to the range [scaled_min, scaled_max]. The min/max
+        values of the sequence value comes from are global_min and global_max.Z
+
+        Parameters
+        ----------
+        value : int or float
+            Single number to be scaled
+        scaled_min : int or float
+            The minimum value that value can be mapped to.
+        scaled_max : int or float
+            The maximum value that value can be mapped to.
+        global_min : int or float
+            The minimum value of the population value comes from. Value must
+            not be smaller than this.
+        global_max : int or float
+            The maximum value of the population value comes from. Value must
+            not be bigger than this.
+
+        Returns
+        -------
+        scaled_value: float
+            Value mapped to the range [scaled_min, scaled_max] given global_min
+            and global_max values.
+        """
+        assert value >= global_min
+        assert value <= global_max
+		# Math adapted from this SO answer: https://tinyurl.com/j5rppewr
 		numerator = (scaled_max - scaled_min) * (value - global_min)
 		denominator = global_max - global_min
         scaled_value = (numerator / denominator) + scaled_min
