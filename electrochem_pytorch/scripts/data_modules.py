@@ -167,15 +167,13 @@ class UnaugmentedAnalyteDataModule(pl.LightningDataModule):
         """
         assert seq.ndim == 1
 		assert scaled_min < scaled_max
-		# Default is to use the max of the seq as the min/max
-		# Can override this and input custom min and max values
-		# if, for example, want to scale to ranges not necesarily included
-		# in the data (as in our case with the train and val data)
+
 		if global_max is None:
 			global_max = np.max(seq)
 		if global_min is None:
 			global_min = np.min(seq)
 		assert global_min < global_max
+
 		scaled_seq = np.array([self._scale_one_value(value, scaled_min, scaled_max,
 										  			 global_min, global_max) \
 							   for value in seq])
