@@ -133,7 +133,8 @@ class UnaugmentedAnalyteDataModule(pl.LightningDataModule):
             scaled_min,
             scaled_max,
             global_min=None,
-            global_max=None):
+            global_max=None
+            ):
         """Given a sequence of numbers - seq - scale all of its values to the
 		range [scaled_min, scaled_max].
 
@@ -142,28 +143,29 @@ class UnaugmentedAnalyteDataModule(pl.LightningDataModule):
 
         Parameters
         ----------
-        seq : array-like
-            Array-like structure containing numbers.
+        seq : 1D array
+            1D array containing numbers.
         scaled_min : int or float
             The minimum value of seq after it has been scaled.
         scaled_max : int or float
             The maximum value of seq after it has been scaled.
         global_min : int or float, optional
-            The minimum value of the sequence, by default None. If None,
-            the minimum value is taken to be min(seq). You may want to set
+            The minimum possible value for elements of seq, by default None.
+            If None, this is taken to be min(seq). You will want to set
             global_min manually if you are scaling multiple sequences to the
             same range and they don't all contain global_min.
         global_max : int or float, optional
-            The maximum value of the sequence, by default None. If None,
-            the maximum value is taken to be max(seq). You may want to set
+            The maximum possible value for elements of seq, by default None.
+            If None, this is taken to be max(seq). You will want to set
             global_max manually if you are scaling multiple sequences to the
             same range and they don't all contain global_max.
 
         Returns
         -------
-        scaled_seq: np.ndarray
-            Array with all values mapped to the range [scaled_min, scaled_max].
+        scaled_seq: 1D np.ndarray
+            1D array with all values mapped to the range [scaled_min, scaled_max].
         """
+        assert seq.ndim == 1
 		assert scaled_min < scaled_max
 		# Default is to use the max of the seq as the min/max
 		# Can override this and input custom min and max values
