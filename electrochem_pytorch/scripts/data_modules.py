@@ -126,6 +126,59 @@ class UnaugmentedAnalyteDataModule(pl.LightningDataModule):
 		return df_scaled
 
 	# Taken from this SO answer: https://tinyurl.com/j5rppewr
+	def _scale_seq_to_range(self,
+						seq,
+						scaled_min,
+						scaled_max,
+						seq_min=None,
+						seq_max=None):
+        """Given a sequence of numbers - seq - scale all of its values to the
+		range [scaled_min, scaled_max].
+
+		Default behaviour maps min(seq) to scaled_min and max(seq) to
+		scaled_max. To override this, set scaled_min and scaled_max yourself.
+
+        Parameters
+        ----------
+        seq : array-like
+            Array-like structure containing numbers.
+        scaled_min : int or float
+            The minimum value of seq after it has been scaled.
+        scaled_max : int or float
+            The maximum value of seq after it has been scaled.
+        seq_min : int or float, optional
+            The minimum value of the sequence, by default None. If None,
+            the minimum value is taken to be min(seq). You may want to set
+            seq_min manually if you are scaling multiple sequences to the
+            same range and they don't all contain seq_min.
+        seq_max : int or float, optional
+            The maximum value of the sequence, by default None. If None,
+            the maximum value is taken to be max(seq). You may want to set
+            seq_max manually if you are scaling multiple sequences to the
+            same range and they don't all contain seq_max.
+
+        Returns
+        -------
+        scaled_seq: np.ndarray
+            Array with all values mapped to the range [scaled_min, scaled_max].
+        """
+		assert scaled_min < scaled_max
+		# Default is to use the max of the seq as the min/max
+		# Can override this and input custom min and max values
+		# if, for example, want to scale to ranges not necesarily included
+		# in the data (as in our case with the train and val data)
+		if seq_max is None:
+			seq_max = np.max(seq)
+		if seq_min is None:
+			seq_min = np.min(seq)
+		assert seq_min < seq_max
+		scaled_seq = np.array([self._scale_one_value(value, scaled_min, scaled_max,
+										  			 seq_min, seq_max) \
+							   for value in seq])
+
+		return scaled_seq
+
+	# Taken from this SO answer: https://tinyurl.com/j5rppewr
 	def _scale_to_range(self,
 						seq,
 						scaled_min,
