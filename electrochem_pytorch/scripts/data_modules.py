@@ -4,16 +4,17 @@ from pathlib import Path
 
 class UnaugmentedAnalyteDataModule(pl.LightningDataModule):
 
-	def __init__(self,
-				 data_dir='data/',
-				 batch_size=50,
-				 seq_length=1002,
-				 rescaled_min_val=-1,
-				 rescaled_max_val=1,
-				 random_seed=42,
-				 shuffle=True,
-				 validation_split=0.2,
-				 ):
+	def __init__(
+            self,
+			data_dir='data/',
+            batch_size=50,
+            seq_length=1002,
+            rescaled_min_val=-1,
+            rescaled_max_val=1,
+            random_seed=42,
+            shuffle=True,
+            validation_split=0.2,
+            ):
 		super().__init__()
 		self.data_dir = Path(data_dir)
 		self.batch_size = batch_size
@@ -126,12 +127,13 @@ class UnaugmentedAnalyteDataModule(pl.LightningDataModule):
 		return df_scaled
 
 
-	def _scale_seq_to_range(self,
-						seq,
-						scaled_min,
-						scaled_max,
-						seq_min=None,
-						seq_max=None):
+	def _scale_seq_to_range(
+            self,
+            seq,
+            scaled_min,
+            scaled_max,
+            seq_min=None,
+            seq_max=None):
         """Given a sequence of numbers - seq - scale all of its values to the
 		range [scaled_min, scaled_max].
 
@@ -179,12 +181,13 @@ class UnaugmentedAnalyteDataModule(pl.LightningDataModule):
 		return scaled_seq
 
 
-	def _scale_one_value(self,
-						 value,
-						 scaled_min,
-						 scaled_max,
-						 original_min,
-						 original_max):
+	def _scale_one_value(
+            self,
+            value,
+            scaled_min,
+            scaled_max,
+            original_min,
+            original_max):
 		# Scale value into [scaled_min, scaled_max] given the max and min values of the seq
 		# it belongs to.
 		# Taken from this SO answer: https://tinyurl.com/j5rppewr
