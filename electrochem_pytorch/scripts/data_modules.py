@@ -4,6 +4,11 @@ import pytorch_lightning as pl
 from pathlib import Path
 from sklearn.preprocessing import LabelEncoder, OneHotEncoder
 from sklearn.model_selection import train_test_split
+from torch.utils.data import Dataset, DataLoader, TensorDataset
+
+
+class UnaugmentedAnalyteDataset(Dataset):
+    pass
 
 
 class UnaugmentedAnalyteDataModule(pl.LightningDataModule):
