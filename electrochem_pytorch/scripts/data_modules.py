@@ -1,6 +1,10 @@
 import numpy as np
+import pandas as pd
 import pytorch_lightning as pl
 from pathlib import Path
+from sklearn.preprocessing import LabelEncoder, OneHotEncoder
+from sklearn.model_selection import train_test_split
+
 
 class UnaugmentedAnalyteDataModule(pl.LightningDataModule):
 
@@ -282,16 +286,6 @@ class UnaugmentedAnalyteDataModule(pl.LightningDataModule):
 		return X, y
 
 
-	def _split_X_y(self, X, y):
-		X_train, X_val, y_train, y_val = train_test_split(
-											X, y,
-											test_size=self.val_split,
-											random_state=self.seed,
-											shuffle=self.shuffle,
-											stratify=y)
-		return X_train, X_val, y_train, y_val
-
-
 	def setup(self, stage):
 		"""
 		Things you want to perform on every GPU.
@@ -306,7 +300,12 @@ class UnaugmentedAnalyteDataModule(pl.LightningDataModule):
 		X, y = self._reshape(df_X_scaled, df_y)
 		# Split
 		self.X_train, self.X_val, \
-			self.y_train, self.y_val = self._split_X_y(X, y)
+			self.y_train, self.y_val = train_test_split(
+                                            X, y,
+                                            test_size=self.val_split,
+											random_state=self.seed,
+											shuffle=self.shuffle,
+											stratify=y))
 
 
 	def train_dataloader(self):
