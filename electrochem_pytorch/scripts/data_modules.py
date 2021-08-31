@@ -8,6 +8,7 @@ from sklearn.model_selection import train_test_split
 
 class UnaugmentedAnalyteDataModule(pl.LightningDataModule):
 
+
 	def __init__(
             self,
 			data_dir='data/',
@@ -52,6 +53,7 @@ class UnaugmentedAnalyteDataModule(pl.LightningDataModule):
 
 		return df_X, df_y
 
+
     def _scale_X_y(self, df_X, df_y, scaled_min=-1, scaled_max=1):
         """Scale each row in df_X to be in the range [scaled_min, scaled_max].
 
@@ -83,6 +85,7 @@ class UnaugmentedAnalyteDataModule(pl.LightningDataModule):
         df_X_scaled = self._scale_df_X_to_range(df_X, scaled_min, scaled_max)
 		# No need to scale y
 		return df_X_scaled, df_y
+
 
 	def _scale_df_to_range(
             self,
