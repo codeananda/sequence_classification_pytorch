@@ -16,6 +16,8 @@ class UnaugmentedAnalyteDataModule(pl.LightningDataModule):
             seq_length=1002,
             rescaled_min_val=-1,
             rescaled_max_val=1,
+            batch_first=True,
+            y_encoding='label',
             random_seed=42,
             shuffle=True,
             validation_split=0.2,
@@ -27,6 +29,8 @@ class UnaugmentedAnalyteDataModule(pl.LightningDataModule):
 		# Scaling params
 		self.rescaled_min_val = rescaled_min_val
 		self.rescaled_max_val = rescaled_max_val
+        self.batch_first = batch_first
+        self.y_encoding = y_encoding
 		self.seed = random_seed
 		self.shuffle = shuffle
 		self.val_split = validation_split
@@ -305,7 +309,11 @@ class UnaugmentedAnalyteDataModule(pl.LightningDataModule):
 		df_X_scaled, df_y = self._scale_X_y(df_X_unscaled, df_y,
 											scaled_min=self.rescaled_min_val,
 											scaled_max=self.rescaled_max_val)
-		X, y = self._reshape(df_X_scaled, df_y)
+
+        X, y = self._reshape_to_torch_input(df_X_scaled,
+                                            df_y,
+                                            batch_first=self.batch_first,
+                                            y_encoding=self.y_encoding)
 		# Split
 		self.X_train, self.X_val, \
 			self.y_train, self.y_val = train_test_split(
