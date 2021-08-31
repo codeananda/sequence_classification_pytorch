@@ -222,7 +222,7 @@ class UnaugmentedAnalyteDataModule(pl.LightningDataModule):
 		return scaled_value
 
 
-	def _reshape(self, df_X, df_y):
+	def _reshape(self, df_X, df_y, batch_first=False):
 		"""
 		Re-shapes df_X and df_y into a format PyTorch LSTMs will accept.
 		Namely: (batch, timesteps, features) - just like with Keras.
@@ -231,8 +231,13 @@ class UnaugmentedAnalyteDataModule(pl.LightningDataModule):
 			  shape to work.
 		"""
 		X = df_X.values
-		# Correct if batch_first=True in nn.LSTM layers
-		X = X.reshape(-1, self.seq_length, 1)
+        if batch_first:
+            # Shape is (batch, seq_length, features)
+            # This is the default in Keras
+            X = X.reshape(-1, self.seq_length, 1)
+        else:
+            # Shape is (seq_length, batch, features)
+            X = X.reshape(self.seq_length, -1, 1)
 		# PyTorch accepts integer y-values by default
 		y_values = df_y.values
 		# label_enc = LabelEncoder()
