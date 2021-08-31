@@ -222,7 +222,12 @@ class UnaugmentedAnalyteDataModule(pl.LightningDataModule):
 		return scaled_value
 
 
-	def _reshape(self, df_X, df_y, batch_first=False):
+	def _reshape(
+            self,
+            df_X,
+            df_y,
+            batch_first=True,
+            y_encoding='label'):
 		"""
 		Re-shapes df_X and df_y into a format PyTorch LSTMs will accept.
 		Namely: (batch, timesteps, features) - just like with Keras.
@@ -230,6 +235,7 @@ class UnaugmentedAnalyteDataModule(pl.LightningDataModule):
 		Note: you must set batch_first=True in your LSTM layers for this X
 			  shape to work.
 		"""
+        # Reshape X values
 		X = df_X.values
         if batch_first:
             # Shape is (batch, seq_length, features)
@@ -238,12 +244,19 @@ class UnaugmentedAnalyteDataModule(pl.LightningDataModule):
         else:
             # Shape is (seq_length, batch, features)
             X = X.reshape(self.seq_length, -1, 1)
-		# PyTorch accepts integer y-values by default
+
+		# Encode y values
 		y_values = df_y.values
-		# label_enc = LabelEncoder()
-		# y = label_enc.fit_transform(y_values)
-		ohe = OneHotEncoder(sparse=False)
-		y = ohe.fit_transform(y_values.reshape(-1, 1))
+        if y_encoding == 'label':
+            label_enc = LabelEncoder()
+            y = label_enc.fit_transform(y_values)
+        elif y_encoding == 'ohe':
+            ohe = OneHotEncoder(sparse=False)
+            y = ohe.fit_transform(y_values.reshape(-1, 1))
+        else:
+            raise ValueError('''Invalid value passed for y_encoding. Please
+                            pass either 'label' for LabelEncoding or 'ohe'
+                            for OneHotEncoding.''')
 		return X, y
 
 
