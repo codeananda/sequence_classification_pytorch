@@ -54,7 +54,12 @@ class UnaugmentedAnalyteDataModule(pl.LightningDataModule):
 		return df_X, df_y
 
 
-    def _scale_X_y(self, df_X, df_y, scaled_min=-1, scaled_max=1):
+    def _scale_X_y(
+            self,
+            df_X,
+            df_y,
+            scaled_min=-1,
+            scaled_max=1):
         """Scale each row in df_X to be in the range [scaled_min, scaled_max].
 
         Note: the min value of df_X is mapped to scaled_min and the max is mapped
@@ -296,7 +301,7 @@ class UnaugmentedAnalyteDataModule(pl.LightningDataModule):
 		It is ok to assign things here.
 		"""
 		# Load, scale, reshape
-		df_X_unscaled, df_y = self._load_X_y_from_columns()
+		df_X_unscaled, df_y = self._load_dfX_dfy()
 		df_X_scaled, df_y = self._scale_X_y(df_X_unscaled, df_y,
 											scaled_min=self.rescaled_min_val,
 											scaled_max=self.rescaled_max_val)
