@@ -222,19 +222,39 @@ class UnaugmentedAnalyteDataModule(pl.LightningDataModule):
 		return scaled_value
 
 
-	def _reshape(
+	def _reshape_to_torch_input(
             self,
             df_X,
             df_y,
             batch_first=True,
             y_encoding='label'):
-		"""
-		Re-shapes df_X and df_y into a format PyTorch LSTMs will accept.
-		Namely: (batch, timesteps, features) - just like with Keras.
+        """Reshapes df_X and df_y into shapes PyTorch accepts. Encodes df_y
+        with either label or one-hot encoding if desired. Returns reshaped
+        X and y as numpy arrays.
 
-		Note: you must set batch_first=True in your LSTM layers for this X
-			  shape to work.
-		"""
+        Parameters
+        ----------
+        df_X : pd.DataFrame
+            DataFrame containing X data in the shape (n_samples, n_features)
+        df_y : pd.DataFrame or pd.Series
+            DataFrame or Series containing labels.
+        batch_first : bool, optional
+            Whether to return X in the shape (batch, seq_length, features)
+            i.e. with the batch as the first dimention, or with the shape
+            (seq_length, batch, features). For easier migration to Keras,
+            the default is True (as this is what Keras expects).
+        y_encoding : str, optional {'label', 'ohe', None}
+            The encoding to apply to df_y. Options are label encoding (0 - n-1),
+            one-hot encoding or no encoding. The default is 'label' as this is
+            what PyTorch expects for multilcass classification problems.
+
+        Returns
+        ----------
+        X: numpy.ndarray
+            Array of values shaped based on batch_first argument.
+        y: numpy.ndarray
+            Array of labels encoded based on the y_encoding argument.
+        """
         # Reshape X values
 		X = df_X.values
         if batch_first:
@@ -247,7 +267,9 @@ class UnaugmentedAnalyteDataModule(pl.LightningDataModule):
 
 		# Encode y values
 		y_values = df_y.values
-        if y_encoding == 'label':
+        if y_encoding is None:
+            y = y_values
+        elif y_encoding == 'label':
             label_enc = LabelEncoder()
             y = label_enc.fit_transform(y_values)
         elif y_encoding == 'ohe':
@@ -255,8 +277,8 @@ class UnaugmentedAnalyteDataModule(pl.LightningDataModule):
             y = ohe.fit_transform(y_values.reshape(-1, 1))
         else:
             raise ValueError('''Invalid value passed for y_encoding. Please
-                            pass either 'label' for LabelEncoding or 'ohe'
-                            for OneHotEncoding.''')
+                            pass 'label' for LabelEncoding, 'ohe' for
+                            OneHotEncoding or None for no encoding.''')
 		return X, y
 
 
