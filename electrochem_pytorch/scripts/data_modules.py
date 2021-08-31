@@ -299,11 +299,20 @@ class UnaugmentedAnalyteDataModule(pl.LightningDataModule):
 
 
 	def setup(self, stage):
-		"""
-		Things you want to perform on every GPU.
+        """Creates the X/y train/val splits necessary to train and validate
+        the model on every GPU used in training.
 
-		It is ok to assign things here.
-		"""
+        First, we load, scale, and reshape the data to be in the correct
+        PyTorch format. Then we split it into X/y train/val objects.
+
+        Parameters
+        ----------
+        stage : str, optional {'fit', 'validate', 'test', None}
+            Set this optional argument to use different setup logic depending
+            on the stage your model is being used for.
+
+            Note: for this project this argument does nothing.
+        """
 		# Load, scale, reshape
 		df_X_unscaled, df_y = self._load_dfX_dfy()
 		df_X_scaled, df_y = self._scale_X_y(df_X_unscaled, df_y,
