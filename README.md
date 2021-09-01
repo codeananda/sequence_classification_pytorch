@@ -7,4 +7,4 @@ It currently contains:
 
 This portfolio is a work in progress. It probably won't be in perfect condition when you read it. But I hope it gives you an idea of the quality of my work and what I can do. Also, if you're really interested, you can go through every commit to see exactly how I created each project!
 
-If you are interested in working together, please reach out to my via my [Upwork profile](https://www.upwork.com/freelancers/~01153ca9fd0099730e) or email me at: adamdmurphy4 [at] gmail [dot] com
+If you are interested in working together, please reach out via my [Upwork profile](https://www.upwork.com/freelancers/~01153ca9fd0099730e) or email me at: adamdmurphy4 [at] gmail [dot] com
