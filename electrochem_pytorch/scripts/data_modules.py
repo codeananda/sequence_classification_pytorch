@@ -55,7 +55,7 @@ class UnaugmentedAnalyteDataModule(pl.LightningDataModule):
         y_encoding : str, optional {'label', 'ohe', None}
             The encoding to apply to y. Options are label encoding (0, n-1),
             one-hot encoding or no encoding. The default is 'label' as this is
-            what PyTorch expects for multilcass classification problems.
+            what PyTorch expects for multilcass classification.
         random_seed : int, optional
             Random state to ensure reproducibility, by default 42
         shuffle : bool, optional
