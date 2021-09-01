@@ -20,7 +20,7 @@ class UnaugmentedAnalyteDataModule(pl.LightningDataModule):
 
 	def __init__(
             self,
-			data_dir='data/',
+            data_dir='data/',
             batch_size=50,
             seq_length=1002,
             rescaled_min_val=-1,
