@@ -12,7 +12,11 @@ class UnaugmentedAnalyteDataset(Dataset):
 
 
 class UnaugmentedAnalyteDataModule(pl.LightningDataModule):
+    """Data Module that returns only true, unaugmented samples.
 
+    By default it scales the dataset to the range (-1, 1) and label encodes
+    y to enhance the performance of PyTorch multiclass classifiers.
+    """
 
 	def __init__(
             self,
@@ -27,6 +31,39 @@ class UnaugmentedAnalyteDataModule(pl.LightningDataModule):
             shuffle=True,
             validation_split=0.2,
             ):
+        """Initialize data module.
+
+        Parameters
+        ----------
+        data_dir : str, optional
+            The directory where the data is stored, by default 'data/'
+        batch_size : int, optional
+            The number of samples returned in each batche, by default 50
+        seq_length : int, optional
+            Length of each sample, by default 1002
+        rescaled_min_val : int, optional
+            The global minimum value of the dataset after scaling has been
+            applied, by default -1
+        rescaled_max_val : int, optional
+            The global maximum value of the dataset after scaling has been
+            appled, by default 1
+        batch_first : bool, optional
+            Whether to re-shape the data such that batch_size is the first
+            dimension. If True data has shape (batch_size, seq_length,
+            features), otherwise its (seq_length, batch_size, features),
+            by default True (to have easier compatibility with Keras)
+        y_encoding : str, optional {'label', 'ohe', None}
+            The encoding to apply to y. Options are label encoding (0, n-1),
+            one-hot encoding or no encoding. The default is 'label' as this is
+            what PyTorch expects for multilcass classification problems.
+        random_seed : int, optional
+            Random state to ensure reproducibility, by default 42
+        shuffle : bool, optional
+            Whether to shuffle the data or not before training, by default
+            True
+        validation_split : float, optional
+            The percentage of data to set aside for validation, by default 0.2
+        """
 		super().__init__()
 		self.data_dir = Path(data_dir)
 		self.batch_size = batch_size
@@ -265,7 +302,7 @@ class UnaugmentedAnalyteDataModule(pl.LightningDataModule):
             (seq_length, batch, features). For easier migration to Keras,
             the default is True (as this is what Keras expects).
         y_encoding : str, optional {'label', 'ohe', None}
-            The encoding to apply to df_y. Options are label encoding (0 - n-1),
+            The encoding to apply to df_y. Options are label encoding (0, n-1),
             one-hot encoding or no encoding. The default is 'label' as this is
             what PyTorch expects for multilcass classification problems.
 
