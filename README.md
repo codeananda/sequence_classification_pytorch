@@ -1,4 +1,4 @@
-# PyTorch - Time-Series / Sequence Multiclass Classification ⌛
+# Time-Series / Sequence Multiclass Classification - PyTorch ⌛
 
 This repo contains a write-up for the first stage of a paid project I completed for a client on Upwork. At the time of writing, we are waiting to start stage 2 and as such the client has not left any feedback yet. But here is a screenshot of the number of hours worked so far.
 
