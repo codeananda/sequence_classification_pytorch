@@ -1,6 +1,6 @@
 # Time-Series / Sequence Multiclass Classification - PyTorch ⌛
 
-This repo contains a write-up for the first stage of a paid project I completed for a client on Upwork. At the time of writing, we are waiting to start stage 2 and as such the client has not left any feedback yet. But here is a screenshot of the number of hours worked so far.
+This repo contains a write-up for the first stage of a paid project I completed for a client on Upwork. At the time of writing, we are waiting to start stage 2. Since the project is still open, the client has not left any feedback but here is a screenshot of the number of hours worked so far.
 
 <img width="680" alt="Screenshot 2021-09-02 at 13 27 44" src="https://user-images.githubusercontent.com/51246969/131835884-04a1f1f5-74c5-4eb2-b968-6321a72c83ea.png">
 
