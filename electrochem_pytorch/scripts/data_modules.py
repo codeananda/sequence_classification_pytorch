@@ -193,11 +193,14 @@ class UnaugmentedAnalyteDataModule(pl.LightningDataModule):
             global_min=None,
             global_max=None
             ):
-        """Given a sequence of numbers - seq - scale all of its values to the
-		range [scaled_min, scaled_max].
+        """Given a sequence of numbers - seq - scale its values to the range
+		[scaled_min, scaled_max].
 
 		Default behaviour maps min(seq) to scaled_min and max(seq) to
-		scaled_max. To override this, set scaled_min and scaled_max yourself.
+		scaled_max. To map different values to scaled_min/max, set global_min
+        and global_max yourself. Manually controlling the global_min/max
+        is useful if you map multiple sequences to the same range but each
+        sequence does not contain the same min/max values.
 
         Parameters
         ----------
@@ -225,12 +228,12 @@ class UnaugmentedAnalyteDataModule(pl.LightningDataModule):
         """
         assert seq.ndim == 1
 		assert scaled_min < scaled_max
+        assert global_min < global_max
 
 		if global_max is None:
 			global_max = np.max(seq)
 		if global_min is None:
 			global_min = np.min(seq)
-		assert global_min < global_max
 
 		scaled_seq = np.array([self._scale_one_value(value, scaled_min, scaled_max,
 										  			 global_min, global_max) \
@@ -248,7 +251,8 @@ class UnaugmentedAnalyteDataModule(pl.LightningDataModule):
             global_max
             ):
         """Scale value to the range [scaled_min, scaled_max]. The min/max
-        values of the sequence value comes from are global_min and global_max.Z
+        of the sequence/population that value comes from are global_min and
+        global_max.
 
         Parameters
         ----------
