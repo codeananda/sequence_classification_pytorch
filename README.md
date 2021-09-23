@@ -12,3 +12,9 @@ It currently contains:
 This portfolio is a work in progress. It probably won't be in perfect condition when you read it. But I hope it gives you an idea of the quality of my work and what I can do. Also, if you're really interested, you can go through every commit to see exactly how I created each project!
 
 If you are interested in working together, please reach out via my [Upwork profile](https://www.upwork.com/freelancers/~01153ca9fd0099730e) or email me at: adamdmurphy4 [at] gmail [dot] com
+
+# PyTorch and TensorFlow
+
+This project was initially completedin TensorFlow with help from my mentor [Waylon Flinn](https://github.com/waylonflinn). Waylon wrote a custom attention-based LSTM model which provided a significant gain in performance over vanialla LSTMs. 
+
+This repo currently contians only PyTorch code as I thought converting this project to PyTorch would be a good way to learn the library. Moreover, I was interested in implementing attention-based architectures using Torch since they have built-in Attention modules (unlike TensorFlow).
