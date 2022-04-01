@@ -2,7 +2,8 @@ import numpy as np
 from pathlib import Path
 from sklearn.preprocessing import LabelEncoder
 
-DATA_DIR = Path('data')
+DATA_DIR = Path("data")
+
 
 def create_cleaned_df(df, class_label_str):
     """Transform the wide-from Dataframe (df) from main.xlsx into one with
@@ -25,17 +26,19 @@ def create_cleaned_df(df, class_label_str):
 
     """
     # Replace spaces with underscores in Concentration column
-    df['Concentration'] = df['Concentration'].str.replace(' ', '_')
+    df["Concentration"] = df["Concentration"].str.replace(" ", "_")
     # Create new column (we will use this to extract unique names later on)
-    df['metal_concentration'] = df['Analyte'] + '_' + df['Concentration']
-    df = df.drop(columns=['Name', 'Analyte', 'Concentration'])
+    df["metal_concentration"] = df["Analyte"] + "_" + df["Concentration"]
+    df = df.drop(columns=["Name", "Analyte", "Concentration"])
     # Transpose df (now columns are a range - 0, 1, 2, etc.)
-    df['metal_concentration'] = [f'{name}_{i}' for i, name in enumerate(df['metal_concentration'])]
-    df = df.set_index('metal_concentration')
+    df["metal_concentration"] = [
+        f"{name}_{i}" for i, name in enumerate(df["metal_concentration"])
+    ]
+    df = df.set_index("metal_concentration")
     df.index.name = None
     df.columns = range(0, 1002)
     class_label_to_int_mapping = get_class_label_to_int_mapping()
-    df['label'] = class_label_to_int_mapping[class_label_str]
+    df["label"] = class_label_to_int_mapping[class_label_str]
     return df
 
 
@@ -48,7 +51,7 @@ def get_class_label_to_int_mapping():
     Dict
         Dict mapping str 2-letter labels to ints
     """
-    labels_str = ['Cu', 'Cd', 'Pb', 'Sw']
+    labels_str = ["Cu", "Cd", "Pb", "Sw"]
     label_enc = LabelEncoder()
     labels_int = label_enc.fit_transform(labels_str)
     label_to_int_mapping = dict(zip(labels_str, labels_int))

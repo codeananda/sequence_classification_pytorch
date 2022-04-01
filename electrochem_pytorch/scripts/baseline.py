@@ -7,9 +7,9 @@ from .data_processing import get_class_label_to_int_mapping
 
 CLASS_LABEL_TO_INT_MAPPING = get_class_label_to_int_mapping()
 
+
 class RandomClassifier:
-    """Returns random predictions of ints in the range 0-3.
-    """
+    """Returns random predictions of ints in the range 0-3."""
 
     def __init__(self, seed=0):
         np.random.seed(seed)
@@ -24,8 +24,7 @@ class RandomClassifier:
 
 
 class MaxPeakClassifier:
-    """Returns predictions based off of the maximum peak value of the sample.
-    """
+    """Returns predictions based off of the maximum peak value of the sample."""
 
     def fit(self, X, y=None):
         """
@@ -94,16 +93,16 @@ class MaxPeakClassifier:
             pb_peak_value = sample[pb_peak_start:pb_peak_end].max()
 
             peak_values = {
-                'Cd': cd_peak_value,
-                'Cu': cu_peak_value,
-                'Pb': pb_peak_value
-                }
+                "Cd": cd_peak_value,
+                "Cu": cu_peak_value,
+                "Pb": pb_peak_value,
+            }
 
             avergae_value = np.mean(list(peak_values.values()))
 
             # On average, seawater max values are less than 2.5, found by inspection
             if avergae_value <= 2.5:
-                pred = CLASS_LABEL_TO_INT_MAPPING['Sw']
+                pred = CLASS_LABEL_TO_INT_MAPPING["Sw"]
                 preds.append(pred)
             else:
                 analyte_with_biggest_peak = max(peak_values, key=peak_values.get)
@@ -112,7 +111,7 @@ class MaxPeakClassifier:
         return np.array(preds)
 
 
-def print_scores(model, X, y, average='micro'):
+def print_scores(model, X, y, average="micro"):
     """Print accuracy, precision, recall and f1 scores for a given
     fit model.
 
@@ -133,17 +132,18 @@ def print_scores(model, X, y, average='micro'):
     preds = model.predict(X)
 
     scores = {
-        'accuracy': accuracy_score,
-        'f1': partial(f1_score, average='micro'),
-        'precision': partial(precision_score, average='micro'),
-        'recall': partial(recall_score, average='micro')
+        "accuracy": accuracy_score,
+        "f1": partial(f1_score, average="micro"),
+        "precision": partial(precision_score, average="micro"),
+        "recall": partial(recall_score, average="micro"),
     }
 
     for name, score_func in scores.items():
-        if name != 'accuracy':
-            print(f'{name}_{average} - {score_func(y, preds):.4f}')
+        if name != "accuracy":
+            print(f"{name}_{average} - {score_func(y, preds):.4f}")
         else:
-            print(f'{name} - {score_func(y, preds):.4f}')
+            print(f"{name} - {score_func(y, preds):.4f}")
+
 
 def print_kfold_scores(model, X, y, n_splits=5, **kwargs):
     """Runs KFold validation n_splits times and prints the accuracy,
@@ -163,7 +163,7 @@ def print_kfold_scores(model, X, y, n_splits=5, **kwargs):
     kfold = KFold(n_splits=n_splits)
     fold = 1
     for train_idx, test_idx in kfold.split(X):
-        print(f'FOLD {fold}')
+        print(f"FOLD {fold}")
         X_train, y_train = X.iloc[train_idx, :], y[train_idx]
         X_test, y_test = X.iloc[test_idx, :], y[test_idx]
 
