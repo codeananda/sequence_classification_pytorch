@@ -1,5 +1,7 @@
 # Time-Series / Sequence Multiclass Classification - PyTorch ⌛
 
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+
 This repo contains a write-up for the first stage of a paid project I completed for a client on Upwork. At the time of writing, we are waiting to start stage 2. Here's a screenshot of the review:
 
 <img width="659" alt="Screenshot 2021-09-21 at 02 06 59" src="https://user-images.githubusercontent.com/51246969/134092832-1301eda9-25ff-4d9b-a28b-38d39eb1278b.png">
